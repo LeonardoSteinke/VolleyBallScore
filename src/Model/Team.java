@@ -28,15 +28,17 @@ public class Team {
     }
 
     public void subScore() {
-        this.Score--;
+        if (this.Score > 0) {
+            this.Score--;
+        }
     }
 
     public int getSetsWons() {
         return SetsWons;
     }
 
-    public void setSetsWons(int SetsWons) {
-        this.SetsWons = SetsWons;
+    public void wonSet() {
+        SetsWons++;
     }
 
 }

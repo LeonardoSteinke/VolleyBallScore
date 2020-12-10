@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Model.Team;
@@ -18,7 +13,6 @@ public class GameController {
     private GameController() {
         team1 = new Team();
         team2 = new Team();
-
     }
 
     private static GameController instance = null;
@@ -30,8 +24,8 @@ public class GameController {
         return instance;
     }
 
-    private int set;
-    private List<String> list = new ArrayList();
+    private int set = 1;
+    private String[] list = new String[5];
     private Team team1;
     private Team team2;
 
@@ -52,8 +46,25 @@ public class GameController {
                 team2.addScore();
                 break;
         }
-
+        if (this.set < 5) {
+            verifyScore(25, 30);
+        } else {
+            verifyScore(0, 15);
+        }
         notifyRefreshScore();
+
+        verifyWonGame();
+    }
+
+    private void verifyWonGame() {
+        if (team1.getSetsWons() == 3) {
+            notifyWhoWon(1);
+            return;
+        }
+        if (team2.getSetsWons() == 3) {
+            notifyWhoWon(2);
+            return;
+        }
 
     }
 
@@ -71,6 +82,51 @@ public class GameController {
 
     }
 
+    private void verifyScore(int setPt, int max) {
+
+        if (team1.getScore() >= setPt && team1.getScore() > team2.getScore() + 1) {
+            team1.wonSet();
+            saveData(team1.getScore(), team2.getScore());
+            notifyWonSet(1);
+            return;
+        }
+
+        if (team2.getScore() >= setPt && team2.getScore() > team1.getScore() + 1) {
+            team2.wonSet();
+            saveData(team1.getScore(), team2.getScore());
+            notifyWonSet(2);
+            return;
+        }
+
+        if (team1.getScore() == max) {
+            team1.wonSet();
+            saveData(team1.getScore(), team2.getScore());
+            notifyWonSet(1);
+            return;
+        }
+
+        if (team2.getScore() == max) {
+            team2.wonSet();
+            saveData(team1.getScore(), team2.getScore());
+            notifyWonSet(2);
+            return;
+        }
+
+    }
+
+    private void saveData(int score1, int score2) {
+        list[getSet() - 1] = "Set " + getSet() + " -> Time 1 | " + score1 + " X " + score2 + " | Time 2";
+    }
+
+    public void resetGame() {
+        team1 = new Team();
+        team2 = new Team();
+        list = new String[5];
+
+        notifyRefreshScoreboard();
+
+    }
+
     private List<GameScoreObserver> addGameScoreObserver = new ArrayList<>();
 
     public void attach(GameScoreObserver obs) {
@@ -81,16 +137,33 @@ public class GameController {
         this.addGameScoreObserver.remove(obs);
     }
 
-    private void notifyAddScore(int i) {
-        for (GameScoreObserver GameScore : addGameScoreObserver) {
-            GameScore.addScore(i);
-        }
-    }
-
     private void notifyRefreshScore() {
         for (GameScoreObserver GameScore : addGameScoreObserver) {
             GameScore.refreshScore(team1.getScore(), team2.getScore());
         }
+    }
+
+    private void notifyWonSet(int i) {
+        addSet();
+        team1.setScore(0);
+        team2.setScore(0);
+        for (GameScoreObserver GameScore : addGameScoreObserver) {
+            GameScore.wonSet(i, getSet(), list);
+        }
+    }
+
+    private void notifyRefreshScoreboard() {
+        for (GameScoreObserver GameScore : addGameScoreObserver) {
+            GameScore.resetGame();
+        }
+
+    }
+
+    private void notifyWhoWon(int i) {
+        for (GameScoreObserver GameScore : addGameScoreObserver) {
+            GameScore.finishGame(i);
+        }
+
     }
 
 }

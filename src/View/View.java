@@ -7,6 +7,7 @@ package View;
 
 import Controller.GameController;
 import Controller.GameScoreObserver;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +23,7 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
     public View() {
         initComponents();
         game.attach(this);
+        setLocationRelativeTo(null);
 
     }
 
@@ -41,7 +43,7 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
         lblScoreTeam1 = new javax.swing.JLabel();
         lblScoreTeam2 = new javax.swing.JLabel();
         btnAddTeam1 = new javax.swing.JButton();
-        bntSubTeam1 = new javax.swing.JButton();
+        btnSubTeam1 = new javax.swing.JButton();
         btnAddTeam2 = new javax.swing.JButton();
         btnSubTeam2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -60,7 +62,7 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
         lblSet.setText("Set");
 
         lblSetCount.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        lblSetCount.setText("0");
+        lblSetCount.setText("1");
 
         lblScoreTeam1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         lblScoreTeam1.setText("0");
@@ -77,12 +79,12 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
             }
         });
 
-        bntSubTeam1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        bntSubTeam1.setText("-");
-        bntSubTeam1.setPreferredSize(new java.awt.Dimension(50, 50));
-        bntSubTeam1.addActionListener(new java.awt.event.ActionListener() {
+        btnSubTeam1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnSubTeam1.setText("-");
+        btnSubTeam1.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnSubTeam1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bntSubTeam1ActionPerformed(evt);
+                btnSubTeam1ActionPerformed(evt);
             }
         });
 
@@ -105,13 +107,18 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
         });
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
 
         btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,7 +137,7 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
                             .addComponent(lblSetCount)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(60, 60, 60)
-                        .addComponent(bntSubTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSubTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(btnAddTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +158,7 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 59, Short.MAX_VALUE))
+                .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +176,7 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bntSubTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSubTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddTeam2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSubTeam2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -186,9 +193,9 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
         game.addScore(1);
     }//GEN-LAST:event_btnAddTeam1ActionPerformed
 
-    private void bntSubTeam1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSubTeam1ActionPerformed
+    private void btnSubTeam1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubTeam1ActionPerformed
         game.subScore(1);
-    }//GEN-LAST:event_bntSubTeam1ActionPerformed
+    }//GEN-LAST:event_btnSubTeam1ActionPerformed
 
     private void btnAddTeam2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTeam2ActionPerformed
         game.addScore(2);
@@ -197,6 +204,10 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
     private void btnSubTeam2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubTeam2ActionPerformed
         game.subScore(2);
     }//GEN-LAST:event_btnSubTeam2ActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        game.resetGame();
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,10 +245,10 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bntSubTeam1;
     private javax.swing.JButton btnAddTeam1;
     private javax.swing.JButton btnAddTeam2;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSubTeam1;
     private javax.swing.JButton btnSubTeam2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -250,18 +261,15 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void addScore(int team) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void subScore(int team) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void resetGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        lblScoreTeam1.setText("" + 0);
+        lblScoreTeam2.setText("" + 0);
+        lblSetCount.setText("" + 1);
+        jList1.setListData(new String[5]);
+        btnAddTeam1.setEnabled(true);
+        btnAddTeam2.setEnabled(true);
+        btnSubTeam1.setEnabled(true);
+        btnSubTeam2.setEnabled(true);
     }
 
     @Override
@@ -269,4 +277,27 @@ public class View extends javax.swing.JFrame implements GameScoreObserver {
         lblScoreTeam1.setText("" + x);
         lblScoreTeam2.setText("" + y);
     }
+
+    @Override
+    public void updateList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void wonSet(int i, int set, String[] list) {
+        lblSetCount.setText("" + set);
+        JOptionPane.showMessageDialog(null, "O time " + i + " ganhou o SET!!");
+        jList1.setListData(list);
+
+    }
+
+    @Override
+    public void finishGame(int i) {
+        JOptionPane.showMessageDialog(null, "O Time " + i + " ganhou o Jogo!!!");
+        btnAddTeam1.setEnabled(false);
+        btnAddTeam2.setEnabled(false);
+        btnSubTeam1.setEnabled(false);
+        btnSubTeam2.setEnabled(false);
+    }
+
 }
