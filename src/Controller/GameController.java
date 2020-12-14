@@ -10,11 +10,6 @@ import java.util.List;
  */
 public class GameController {
 
-    private GameController() {
-        team1 = new Team();
-        team2 = new Team();
-    }
-
     private static GameController instance = null;
 
     public static GameController getIntance() {
@@ -22,6 +17,11 @@ public class GameController {
             instance = new GameController();
         }
         return instance;
+    }
+
+    private GameController() {
+        team1 = new Team();
+        team2 = new Team();
     }
 
     private int set = 1;
@@ -37,6 +37,7 @@ public class GameController {
         this.set++;
     }
 
+    //Aumenta a pontuação
     public void addScore(int i) {
         switch (i) {
             case 1:
@@ -49,25 +50,14 @@ public class GameController {
         if (this.set < 5) {
             verifyScore(25, 30);
         } else {
-            verifyScore(0, 15);
+            verifyScore(15, 15);
         }
         notifyRefreshScore();
 
         verifyWonGame();
     }
 
-    private void verifyWonGame() {
-        if (team1.getSetsWons() == 3) {
-            notifyWhoWon(1);
-            return;
-        }
-        if (team2.getSetsWons() == 3) {
-            notifyWhoWon(2);
-            return;
-        }
-
-    }
-
+    //Reduz a pontuação
     public void subScore(int i) {
         switch (i) {
             case 1:
@@ -82,16 +72,20 @@ public class GameController {
 
     }
 
-    private void verifyScore(int setPt, int max) {
+    /*
+    *   Verifica se a pontuação é suficiente para ganhar um set
+    *
+     */
+    private void verifyScore(int min, int max) {
 
-        if (team1.getScore() >= setPt && team1.getScore() > team2.getScore() + 1) {
+        if (team1.getScore() >= min && team1.getScore() > team2.getScore() + 1) {
             team1.wonSet();
             saveData(team1.getScore(), team2.getScore());
             notifyWonSet(1);
             return;
         }
 
-        if (team2.getScore() >= setPt && team2.getScore() > team1.getScore() + 1) {
+        if (team2.getScore() >= min && team2.getScore() > team1.getScore() + 1) {
             team2.wonSet();
             saveData(team1.getScore(), team2.getScore());
             notifyWonSet(2);
@@ -114,10 +108,25 @@ public class GameController {
 
     }
 
+    //Verifica se se o time venceu
+    private void verifyWonGame() {
+        if (team1.getSetsWons() == 3) {
+            notifyWhoWon(1);
+            return;
+        }
+        if (team2.getSetsWons() == 3) {
+            notifyWhoWon(2);
+            return;
+        }
+
+    }
+
+    //Salva o placar do set
     private void saveData(int score1, int score2) {
         list[getSet() - 1] = "Set " + getSet() + " -> Time 1 | " + score1 + " X " + score2 + " | Time 2";
     }
 
+    //Reseta todo o placar
     public void resetGame() {
         team1 = new Team();
         team2 = new Team();
